@@ -342,10 +342,12 @@ namespace ZelenaVlnaNewVersion.Models
                     {
                         if(c.Id !=0 && k.Id !=Track.Last().Id && c.Id!=Track.Last().Id && k.Id != 0)
                         {
-                            _timeTableA.Add(_matrixOfDistances.Elements[c.Id, k.Id]);
-                            _timeTableB.Add(_matrixOfDistances.Elements[_matrixOfDistances.Spans - 1 - c.Id, _matrixOfDistances.Spans - 1 - k.Id]);
-                            Console.WriteLine(_matrixOfDistances.Elements[c.Id, k.Id].ToString());
-                            Console.WriteLine(_matrixOfDistances.Elements[_matrixOfDistances.Spans - 1 - c.Id, _matrixOfDistances.Spans - 1 - k.Id]);
+                            if(_timeTableA.Count() > 0) _timeTableA.Add(_matrixOfDistances.Elements[c.Id, k.Id - 1]);
+                            else _timeTableA.Add(_matrixOfDistances.Elements[c.Id, k.Id - 1]);
+                            if (_timeTableB.Count() > 0) _timeTableB.Add(_matrixOfDistances.Elements[_matrixOfDistances.Spans - c.Id, _matrixOfDistances.Spans - k.Id - 1]);
+                            else _timeTableB.Add(_matrixOfDistances.Elements[_matrixOfDistances.Spans - c.Id, _matrixOfDistances.Spans - k.Id - 1]);
+                            //Console.WriteLine(_matrixOfDistances.Elements[c.Id, k.Id].ToString());
+                            //Console.WriteLine(_matrixOfDistances.Elements[_matrixOfDistances.Spans - 1 - c.Id, _matrixOfDistances.Spans - 1 - k.Id]);
                         }
                     }
                 }
@@ -362,9 +364,10 @@ namespace ZelenaVlnaNewVersion.Models
 
                 decisionValues = new List<double>(decisionArray);
 
-                _time = _timeTableB.First();
+                _time = _matrixOfDistances.Elements[_matrixOfDistances.Spans - 1, 0];
                 _reports.Add(_time.ToString());
-                Console.WriteLine(solution.GetReport().ToString());
+                exception = new Exception("OK");
+                //Console.WriteLine(solution.GetReport().ToString());
             }
             catch(Exception e)
             {
@@ -454,7 +457,10 @@ namespace ZelenaVlnaNewVersion.Models
                 temporalTime = 0;
                 temporalTimeB = 0;
             }
-
+            if (Track.Count() == 1)
+            {
+                Track = new List<Cross>();
+            }
             for (int i = 0; i <= _matrixOfDistances.Spans - 1; i++)
             {
                 Track.Add(new Cross(i+1, i + 1, _matrixOfDistances.Elements[i, i], openedLightsA[i], openedLightsB[_matrixOfDistances.Spans - 1 - i]));

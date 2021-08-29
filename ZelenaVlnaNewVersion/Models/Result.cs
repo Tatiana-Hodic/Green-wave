@@ -20,24 +20,24 @@ namespace ZelenaVlnaNewVersion.Models
         private List<double> _valuesOfh = new List<double>();
         private Exception _errorMessage;
         //Stav daného plánu. V kolekci je uložen stav řešené sady křižovatek dle vlastností objektu typu Cross
-        public List<Cross> TrackState { 
+        public List<Cross> TrackState
+        {
             get { return _trackState; }
-            set 
+            set
             {
-                foreach(Cross c in value)
-                _trackState.Add(c); 
-            } 
+                foreach (Cross c in value)
+                    _trackState.Add(c);
+            }
         }
         //Vlastnost reprezentuje chybovou zprávu, vzniklou během výpočtu
-        public Exception ErrorMessage 
+        public Exception ErrorMessage
         {
-            get 
+            get
             {
-                if (_errorMessage == null || _errorMessage == new Exception("")) return new Exception("OK"); 
                 //Pokud není chyba, vypíše OK
-                return _errorMessage; 
+                return _errorMessage;
             }
-            set 
+            set
             {
                 _errorMessage = new Exception(value.Message);
             }
@@ -64,9 +64,9 @@ namespace ZelenaVlnaNewVersion.Models
             }
         }
         //spočtené hodnoty proměnné h pro jednotlivé křižovatky
-        public List<double> ValuesOfh 
+        public List<double> ValuesOfh
         {
-            get {return _valuesOfh; }
+            get { return _valuesOfh; }
             set
             {
                 foreach (double d in value)
